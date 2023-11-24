@@ -5,6 +5,7 @@ export default function Search() {
 
   return (
     <div>
+      <h2>Pesquisa:</h2>
       <input
         type="text"
         data-testid="search-artist-input"
