@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getCategories, getProductsFromCategoryAndQuery } from '../../services/api';
+import Search from '../../components/Search';
 
 type Category = {
   id: string;
@@ -37,6 +38,10 @@ function ProductsList() {
   };
   return (
     <>
+      <Search />
+      <p data-testid="home-initial-message">
+        Digite algum termo de pesquisa ou escolha uma categoria.
+      </p>
       <h2>Categorias</h2>
       <ul>
         {categories.map((category: Category) => (

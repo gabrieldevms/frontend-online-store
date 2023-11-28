@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
-type Result = {
-  id: number;
-  title: string;
-};
 export default function Search() {
   const [name, setName] = useState('');
-  const [resultados, setResultados] = useState<Result[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [noResults, setNoResults] = useState<boolean>(false);
+
   const handleSearch = async () => {
     try {
       const results = await getProductsFromCategoryAndQuery('MLB', name);
-      setResultados(results.results);
-      console.log(resultados);
+      const productsData = results.results;
+      if (productsData.length === 0) {
+        setNoResults(true);
+        setProducts([]);
+      } else {
+        setProducts(productsData);
+        setNoResults(false);
+      }
     } catch (error) {
-      console.error('Erro na busca:', error);
-      setResultados([]);
+      console.error('Erro ao buscar produtos:', error);
     }
   };
   return (
@@ -30,18 +34,24 @@ export default function Search() {
       <button onClick={ handleSearch } data-testid="query-button">
         Buscar
       </button>
-      {name.length <= 0 ? (
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
-      ) : (
-        <p />
-      )}
-      <h2>Resultado</h2>
-      <ul>
-        {resultados.map((result: Result) => (
-          <li key={ result.id } data-testid="product">{result.title}</li>))}
-      </ul>
+
+      {noResults && <p data-testid="no-results">Nenhum produto foi encontrado.</p>}
+
+      {products.map((product) => (
+        <div key={ product.id } data-testid="product">
+          <NavLink
+            data-testid="product-detail-link"
+            to={ `/product/${product.id}` }
+          >
+            <h2>{product.title}</h2>
+            <img src={ product.thumbnail } alt={ product.title } />
+            <p>
+              Preço: R$
+              {product.price}
+            </p>
+          </NavLink>
+        </div>
+      ))}
     </div>
   );
 }
