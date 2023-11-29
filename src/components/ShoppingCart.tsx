@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: number | string;
@@ -26,11 +27,19 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
     }
   }, [cart]);
 
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, [setCart]);
+
   const handleIncrementQuantity = (productId: number | string) => {
     const updatedCart = cart.map((product) => (product.id === productId
       ? { ...product, quantity: (product.quantity || 1) + 1 } // Garante que a quantidade mínima seja 1
       : product));
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const handleDecreaseQuantity = (productId: number | string) => {
@@ -38,16 +47,19 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
       ? { ...product, quantity: Math.max((product.quantity || 1) - 1, 1) } // Garante que a quantidade mínima seja 1
       : product));
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const handleRemoveProduct = (productId: number | string) => {
     const updatedCart = cart.filter((product) => product.id !== productId);
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   return (
     <>
       <h1>Seu Carrinho de Compras:</h1>
+
       {emptyCart ? (
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       ) : (
@@ -87,6 +99,9 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
           </div>
         ))
       )}
+      <Link to="/checkout">
+        <button data-testid="checkout-products">Finalizar Compra</button>
+      </Link>
     </>
   );
 }
