@@ -16,7 +16,6 @@ interface ShoppingCartProps {
 
 function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
   const [emptyCart, setEmptyCart] = useState(true);
-  const [initialCart, setInitialCart] = useState<Product[]>([]);
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -27,6 +26,13 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
       setEmptyCart(true);
     }
   }, [cart]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
 
   const handleIncrementQuantity = (productId: number | string) => {
     const updatedCart = cart.map((product) => (product.id === productId
