@@ -7,22 +7,35 @@ type Category = {
   id: string;
   name: string;
 };
+
 type Product = {
   id: string;
   title: string;
   thumbnail: string;
   price: number;
 };
-function ProductsList() {
+
+interface ProductsListProps {
+  addToCart: (
+    productId: string,
+    productName: string,
+    productThumbnail: string,
+    productPrice: number
+  ) => void;
+}
+
+function ProductsList({ addToCart }: ProductsListProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
+
   useEffect(() => {
     getCategories().then((categoriesData) => {
       setCategories(categoriesData);
     });
   }, []);
+
   useEffect(() => {
     if (selectedCategory !== null) {
       getProductsFromCategoryAndQuery(selectedCategory, searchQuery)
@@ -31,22 +44,25 @@ function ProductsList() {
         });
     }
   }, [selectedCategory, searchQuery]);
+
   const handleCategoryClick = (categoryId: string) => {
     setSelectedCategory(categoryId);
   };
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
+
+  const handleClickAddToCart = (
+    productId: string,
+    productName: string,
+    productImage: string,
+    productPrice: number,
+  ) => {
+    addToCart(productId, productName, productImage, productPrice);
   };
+
   return (
     <>
-      <Search />
-      <p data-testid="home-initial-message">
-        Digite algum termo de pesquisa ou escolha uma categoria.
-      </p>
       <h2>Categorias</h2>
       <ul>
         {categories.map((category: Category) => (
-          // <li key={ category.id } onClick={ () => handleCategoryClick(category.id) } data-testid="category">
           <li key={ category.id }>
             <input
               type="button"
@@ -73,6 +89,17 @@ function ProductsList() {
                 <div>{product.title}</div>
                 <div>{product.price}</div>
               </NavLink>
+              <button
+                onClick={ () => handleClickAddToCart(
+                  product.id,
+                  product.title,
+                  product.thumbnail,
+                  product.price,
+                ) }
+                data-testid="product-add-to-cart"
+              >
+                Adicionar ao Carrinho
+              </button>
             </div>
           ))}
         </>
