@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../../services/api';
-import Search from '../../components/Search';
 
 type Category = {
   id: string;

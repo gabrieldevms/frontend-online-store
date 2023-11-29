@@ -48,7 +48,10 @@ function App() {
           path="/shoppingcart"
           element={ <ShoppingCart cart={ cart } setCart={ setCart } /> }
         />
-        <Route path="/product/:productId" element={ <ProductDetail /> } />
+        <Route
+          path="/product/:productId"
+          element={ <ProductDetail addToCart={ addToCart } /> }
+        />
       </Routes>
     </>
   );
