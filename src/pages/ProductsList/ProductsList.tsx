@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../../services/api';
+import Search from '../../components/Search';
 
 type Category = {
   id: string;
@@ -37,6 +39,10 @@ function ProductsList() {
   };
   return (
     <>
+      <Search />
+      <p data-testid="home-initial-message">
+        Digite algum termo de pesquisa ou escolha uma categoria.
+      </p>
       <h2>Categorias</h2>
       <ul>
         {categories.map((category: Category) => (
@@ -57,15 +63,18 @@ function ProductsList() {
       {products.length > 0 && (
         <>
           <h2>Produtos da Categoria</h2>
-          <ul>
-            {products.map((product: Product) => (
-              <li key={ product.id } data-testid="product">
+          {products.map((product: Product) => (
+            <div key={ product.id } data-testid="product">
+              <NavLink
+                data-testid="product-detail-link"
+                to={ `/product/${product.id}` }
+              >
                 <img src={ product.thumbnail } alt={ product.title } />
                 <div>{product.title}</div>
                 <div>{product.price}</div>
-              </li>
-            ))}
-          </ul>
+              </NavLink>
+            </div>
+          ))}
         </>
       )}
     </>
