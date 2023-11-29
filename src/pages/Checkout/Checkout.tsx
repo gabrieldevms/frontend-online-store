@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import ShoppingCart from '../../components/ShoppingCart';
+import React, { useState, useEffect } from 'react';
 
 interface Product {
   id: number | string;
@@ -9,24 +8,22 @@ interface Product {
   quantity: number;
 }
 
-interface CheckoutProps {
-  cart: Product[];
-  setCart: React.Dispatch<React.SetStateAction<Product[]>>;
-}
-
 function Checkout() {
-  const initialCart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const [cart, setCart] = useState<Product[]>(initialCart);
+  const [cart, setCart] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cart');
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
+    }
+  }, []);
 
   return (
-    <>
-      <h2>Suas compras:</h2>
-      <ul>
-        {cart.map((product) => (
-          <li key={ product.id }>{product.name}</li>
-        ))}
-      </ul>
-    </>
+    <ul>
+      {cart.map((product) => (
+        <li key={ product.id }>{product.name}</li>
+      ))}
+    </ul>
   );
 }
 

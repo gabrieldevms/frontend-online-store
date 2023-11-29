@@ -16,6 +16,7 @@ interface ShoppingCartProps {
 
 function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
   const [emptyCart, setEmptyCart] = useState(true);
+  const [initialCart, setInitialCart] = useState<Product[]>([]);
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -32,6 +33,7 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
       ? { ...product, quantity: (product.quantity || 1) + 1 } // Garante que a quantidade mínima seja 1
       : product));
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const handleDecreaseQuantity = (productId: number | string) => {
@@ -39,16 +41,19 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
       ? { ...product, quantity: Math.max((product.quantity || 1) - 1, 1) } // Garante que a quantidade mínima seja 1
       : product));
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const handleRemoveProduct = (productId: number | string) => {
     const updatedCart = cart.filter((product) => product.id !== productId);
     setCart(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   return (
     <>
       <h1>Seu Carrinho de Compras:</h1>
+
       {emptyCart ? (
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       ) : (

@@ -55,6 +55,12 @@ function ProductsList({ addToCart }: ProductsListProps) {
     productPrice: number,
   ) => {
     addToCart(productId, productName, productImage, productPrice);
+    localStorage.setItem('cart', JSON.stringify({
+      productId,
+      productName,
+      productImage,
+      productPrice,
+    }));
   };
 
   return (
