@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
-export default function Search() {
+function Search() {
   const [name, setName] = useState('');
   const [products, setProducts] = useState<any[]>([]);
   const [noResults, setNoResults] = useState<boolean>(false);
@@ -55,3 +55,5 @@ export default function Search() {
     </div>
   );
 }
+
+export default Search;

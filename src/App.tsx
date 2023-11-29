@@ -13,7 +13,6 @@ function App() {
         <button data-testid="shopping-cart-button">
           Carrinho de Compras
         </button>
-
       </Link>
       <Routes>
         <Route path="/" element={ <ProductsList /> } />

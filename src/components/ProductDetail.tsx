@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import ProductsList from '../pages/ProductsList/ProductsList';
 
 function ProductDetail() {
   const { productId } = useParams<{ productId: string }>();
@@ -50,12 +49,12 @@ function ProductDetail() {
       {/* Se for preciso adicionar outras infos para o produto, pode inseri-las aqui */}
 
       {/* Botão para ir para o carrinho, quando for implementado essa função futuramente */}
-      <Link
+      {/* <Link
         to="/shoppingcart"
         data-testid="shopping-cart-button"
       >
         <button>Ir para o Carrinho</button>
-      </Link>
+      </Link> */}
     </div>
   );
 }
