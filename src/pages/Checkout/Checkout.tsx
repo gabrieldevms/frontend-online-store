@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 interface Product {
   id: number | string;
@@ -8,15 +8,18 @@ interface Product {
   quantity: number;
 }
 
-function Checkout() {
-  const [cart, setCart] = useState<Product[]>([]);
+interface ShoppingCartProps {
+  cart: Product[];
+  setCart: React.Dispatch<React.SetStateAction<Product[]>>;
+}
 
+function Checkout({ cart, setCart }: ShoppingCartProps) {
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
-  }, []);
+  }, [setCart]);
 
   return (
     <ul>

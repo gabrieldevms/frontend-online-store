@@ -32,7 +32,7 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
-  }, []);
+  }, [setCart]);
 
   const handleIncrementQuantity = (productId: number | string) => {
     const updatedCart = cart.map((product) => (product.id === productId
