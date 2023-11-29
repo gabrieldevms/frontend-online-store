@@ -5,6 +5,7 @@ import Search from './components/Search';
 import ProductsList from './pages/ProductsList/ProductsList';
 import ShoppingCart from './components/ShoppingCart';
 import ProductDetail from './components/ProductDetail';
+import Checkout from './pages/Checkout/Checkout';
 
 type Product = {
   id: number | string;
@@ -51,6 +52,10 @@ function App() {
         <Route
           path="/product/:productId"
           element={ <ProductDetail addToCart={ addToCart } /> }
+        />
+        <Route
+          path="/checkout"
+          element={ <Checkout cart={ cart } setCart={ setCart } /> }
         />
       </Routes>
     </>

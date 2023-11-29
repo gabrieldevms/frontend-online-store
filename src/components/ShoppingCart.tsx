@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Product {
   id: number | string;
@@ -60,6 +61,9 @@ function ShoppingCart({ cart, setCart }: ShoppingCartProps) {
           </div>
         ))
       )}
+      <Link to="/checkout">
+        <button data-testid="checkout-products">Finalizar Compra</button>
+      </Link>
     </>
   );
 }
