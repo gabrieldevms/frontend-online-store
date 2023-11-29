@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import CheckoutPage from '../../components/CheckoutPage';
 
 interface Product {
   id: number | string;
@@ -22,11 +23,15 @@ function Checkout({ cart, setCart }: ShoppingCartProps) {
   }, [setCart]);
 
   return (
-    <ul>
-      {cart.map((product) => (
-        <li key={ product.id }>{product.name}</li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {cart.map((product) => (
+          <li key={ product.id }>{product.name}</li>
+        ))}
+      </ul>
+
+      <CheckoutPage />
+    </>
   );
 }
 
