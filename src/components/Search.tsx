@@ -2,9 +2,23 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
-function Search() {
+type Product = {
+  id: number;
+  title: string;
+  thumbnail: string;
+  price: number;
+  quantity: number;
+};
+
+interface SearchProps {
+  addToCart: (productId: number, productName: string,
+    productThumbnail: string,
+    productPrice: number) => void;
+}
+
+function Search({ addToCart }: SearchProps) {
   const [name, setName] = useState('');
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [noResults, setNoResults] = useState<boolean>(false);
 
   const handleSearch = async () => {
@@ -22,6 +36,16 @@ function Search() {
       console.error('Erro ao buscar produtos:', error);
     }
   };
+
+  const handleClickAddToCart = (
+    productId: number,
+    productName: string,
+    productThumbnail: string,
+    productPrice: number,
+  ) => {
+    addToCart(productId, productName, productThumbnail, productPrice);
+  };
+
   return (
     <div>
       <h2>Pesquisa:</h2>
@@ -37,7 +61,7 @@ function Search() {
 
       {noResults && <p data-testid="no-results">Nenhum produto foi encontrado.</p>}
 
-      {products.map((product) => (
+      {products.map((product: Product) => (
         <div key={ product.id } data-testid="product">
           <NavLink
             data-testid="product-detail-link"
@@ -50,6 +74,17 @@ function Search() {
               {product.price}
             </p>
           </NavLink>
+          <button
+            onClick={ () => handleClickAddToCart(
+              product.id,
+              product.title,
+              product.thumbnail,
+              product.price,
+            ) }
+            data-testid="product-add-to-cart"
+          >
+            Adicionar ao Carrinho
+          </button>
         </div>
       ))}
     </div>
