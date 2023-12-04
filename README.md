@@ -1,4 +1,4 @@
-# :construction: README em construção ! :construction:
+# Front-End de um e-commerce, uma loja online, alimentada por uma API do Mercado Livre.
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto.
 É essencial que você preencha esse documento por conta própria, ok?
